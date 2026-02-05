@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+:root {
+  --drum-bg: #1a1a2e;
+  --drum-text: #eee;
+  --drum-text-muted: #94a3b8;
+  --drum-pad: rgba(22, 33, 62, 0.9);
+  --drum-pad-border: rgba(233, 69, 96, 0.25);
+  --drum-accent: #e94560;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  color: var(--drum-text);
+  overflow-x: hidden;
+}
+
+/* Light theme */
+body.theme-light {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #1e293b;
+}
+
+/* Cyberpunk theme */
+body.theme-cyberpunk {
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a0b2e 50%, #0d1f1f 100%);
+  color: #00ff9f;
+}
+
+.drum-pad-active {
+  transform: scale(0.95);
+  box-shadow: 0 0 20px var(--drum-accent) !important;
+  border-color: var(--drum-accent) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(71, 85, 105, 0.8);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
+
+/* Range input styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  border: none;
+}
+
+/* Cyberpunk glow effect */
+.cyber-glow {
+  box-shadow: 
+    0 0 10px rgba(0, 255, 159, 0.3),
+    0 0 20px rgba(0, 255, 159, 0.2),
+    0 0 30px rgba(255, 0, 255, 0.1);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(233, 69, 96, 0.3);
+  color: inherit;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--drum-accent);
+  outline-offset: 2px;
+}
+
+/* Disable text selection on drum pads */
+.drum-pad {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
