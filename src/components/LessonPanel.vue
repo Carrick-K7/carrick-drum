@@ -218,6 +218,11 @@
           🔄 再练一次
         </button>
         
+        <ScoreShare 
+          v-if="lastCompletedRecord" 
+          :record="lastCompletedRecord"
+        />
+        
         <button class="btn-demo" @click="teachingStore.exitLesson()">
           📚 返回课程列表
         </button>

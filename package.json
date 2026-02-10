@@ -29,6 +29,7 @@
   "dependencies": {
     "@vitejs/plugin-vue": "^6.0.4",
     "@vueuse/core": "^14.2.0",
+    "html-to-image": "^1.11.13",
     "pinia": "^3.0.4"
   }
 }

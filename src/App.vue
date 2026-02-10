@@ -27,6 +27,14 @@
           🎵 自由演奏
         </button>
         
+        <button
+          class="btn-mode"
+          :class="{ 'btn-mode-active': currentMode === 'scores' }"
+          @click="switchMode('scores')"
+        >
+          🏆 成绩中心
+        </button>
+        
         <DrumKitSelector />
         <ThemeToggle />
         <button class="btn-settings" @click="settingsStore.openSettings">
@@ -98,8 +106,13 @@
         </div>
       </main>
       
+      <!-- 成绩中心 -->
+      <main v-else-if="currentMode === 'scores'" class="scores-mode">
+        <ScoreHistoryPage @navigate="handleNavigate" />
+      </main>
+      
       <!-- 自由演奏模式 -->
-      <main v-else class="flex-1 flex flex-col lg:flex-row items-start justify-center p-4 gap-6">
+      <main v-else-if="currentMode === 'free'" class="flex-1 flex flex-col lg:flex-row items-start justify-center p-4 gap-6">
         <!-- Accompaniment Panel (Left side on large screens) -->
         <div v-if="showAccompaniment" class="accompaniment-panel">
           <SongSelector />
@@ -166,6 +179,7 @@ import SongSelector from './components/SongSelector.vue'
 import PlaybackControls from './components/PlaybackControls.vue'
 import LessonSelector from './components/LessonSelector.vue'
 import LessonPanel from './components/LessonPanel.vue'
+import ScoreHistoryPage from './components/ScoreHistoryPage.vue'
 import { useAudio } from './composables/useAudio'
 import { useKeyboard } from './composables/useKeyboard'
 import { useThemeStore } from './stores/useThemeStore'
@@ -174,7 +188,7 @@ import { useSettingsStore } from './stores/useSettingsStore'
 import { useAccompanimentStore } from './stores/useAccompanimentStore'
 import { useTeachingStore } from './stores/useTeachingStore'
 
-type AppMode = 'teaching' | 'free'
+type AppMode = 'teaching' | 'free' | 'scores'
 
 const {
   state: audioState,
@@ -225,10 +239,17 @@ const switchMode = (mode: AppMode) => {
   localStorage.setItem('drum-app-mode', mode)
 }
 
+// 处理导航
+const handleNavigate = (destination: string) => {
+  if (destination === 'lessons') {
+    switchMode('teaching')
+  }
+}
+
 // 加载模式偏好
 try {
   const savedMode = localStorage.getItem('drum-app-mode')
-  if (savedMode && (savedMode === 'teaching' || savedMode === 'free')) {
+  if (savedMode && (savedMode === 'teaching' || savedMode === 'free' || savedMode === 'scores')) {
     currentMode.value = savedMode
   }
 } catch (err) {
@@ -461,8 +482,13 @@ onMounted(() => {
 }
 
 /* Free play layout */
-main:not(.teaching-mode) {
+main:not(.teaching-mode):not(.scores-mode) {
   @apply w-full max-w-7xl mx-auto;
+}
+
+/* Scores mode */
+.scores-mode {
+  @apply flex-1 p-4 overflow-y-auto;
 }
 
 .accompaniment-panel {
