@@ -23,6 +23,8 @@ export interface AudioContextState {
 export interface Beat {
   time: number // Time in seconds
   drum: string // Drum ID
+  label?: string // Beat label (1, 2, 3, 4, etc.)
+  isEnd?: boolean // Is this the last beat?
 }
 
 export interface RhythmMap {
@@ -34,4 +36,38 @@ export interface RhythmMap {
   beats: Beat[]
   style: 'rock' | 'pop' | 'electronic'
   description: string
+  difficulty?: 'beginner' | 'elementary' | 'intermediate' | 'advanced'
+  lessonInfo?: LessonInfo
+}
+
+// Lesson types
+export interface LessonInfo {
+  lessonNumber: number
+  objective: string
+  tips: string[]
+  targetDrums: string[]
+  prerequisites?: string[] // IDs of prerequisite lessons
+}
+
+// Judgment types
+export type JudgmentType = 'perfect' | 'good' | 'miss' | 'none'
+
+export interface JudgmentResult {
+  type: JudgmentType
+  deltaMs: number
+  beat?: Beat
+  score: number
+  combo: number
+}
+
+// Practice session types
+export interface PracticeSession {
+  lessonId: string
+  startTime: number
+  endTime?: number
+  judgments: JudgmentResult[]
+  finalScore: number
+  accuracy: number
+  maxCombo: number
+  grade: string
 }
