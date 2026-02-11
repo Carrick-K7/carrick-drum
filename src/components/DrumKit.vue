@@ -7,6 +7,7 @@
         :key="drum.id"
         :drum="drum"
         :is-active="activeDrums.has(drum.id)"
+        :combo="drumCombos[drum.id] || 0"
         @trigger="onTrigger"
       />
       
@@ -16,6 +17,7 @@
         :key="drum.id"
         :drum="drum"
         :is-active="activeDrums.has(drum.id)"
+        :combo="drumCombos[drum.id] || 0"
         @trigger="onTrigger"
       />
     </div>
@@ -29,10 +31,12 @@ import { DRUMS } from '../constants/drums'
 
 interface Props {
   activeDrums?: Set<string>
+  drumCombos?: Record<string, number>
 }
 
 withDefaults(defineProps<Props>(), {
-  activeDrums: () => new Set()
+  activeDrums: () => new Set(),
+  drumCombos: () => ({})
 })
 
 const emit = defineEmits<{

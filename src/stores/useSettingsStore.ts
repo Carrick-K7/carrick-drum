@@ -42,10 +42,10 @@ export const useSettingsStore = defineStore('settings', () => {
           ...parsed,
           volumes: {
             ...defaultSettings.volumes,
-            ...(parsed.volumes || {}),
+            ...parsed.volumes,
             drums: {
               ...defaultSettings.volumes.drums,
-              ...(parsed.volumes?.drums || {})
+              ...parsed.volumes?.drums
             }
           }
         }
