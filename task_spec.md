@@ -9,9 +9,26 @@
 ## 版本历史
 - v1.0.0 - 当前版本，核心功能完成
 
+## Task 索引
+
+| Task | 描述 | 状态 | 文件 |
+|:---:|:---|:---:|:---|
+| T-001 | 项目初始化 - 基础练习模式 | ✅ 已上线 | tasks/T-001.md |
+| T-002 | 新功能探索（教学模式/MP3识别） | 🟡 规划中 | tasks/T-002.md |
+
 ## 当前状态
 - ✅ 已完成: 基础练习模式
-- 🟡 进行中: **Drum新功能探索**
+- 🟡 进行中: **Drum新功能探索**（教学模式 + MP3识别）
+
+## PTT 文档
+
+- 📋 Product Spec: .doc/product_spec.md
+- 📝 Task Spec: .doc/task_spec.md (本文档)
+- 🔧 Tech Spec: .doc/tech_spec.md
 
 ## 数据来源
 - task_spec.md + Git commit
+
+---
+
+*更新时间: 2026-02-19（东八区）*
