@@ -43,6 +43,14 @@
           🏆 成绩中心
         </router-link>
         
+        <router-link
+          to="/todo"
+          class="btn-mode"
+          :class="{ 'btn-mode-active': $route.path === '/todo' }"
+        >
+          📝 待办
+        </router-link>
+        
         <DrumKitSelector />
         <ThemeToggle />
         <button class="btn-settings" @click="settingsStore.openSettings">
