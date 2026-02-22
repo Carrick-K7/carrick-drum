@@ -1,8 +1,8 @@
 # Drum App Phase 5: 教学模式 - Tech Spec V2
 
 > **PTT Version**: 2.0  
-> **Last Updated**: 2026-02-08  
-> **Status**: Ready for Development
+> **Last Updated**: 2026-02-22  
+> **Status**: Phase 1-5 已完成，Phase 6 待启动
 
 ---
 
@@ -633,7 +633,19 @@ export function useMetronome(audioContext: AudioContext) {
 
 ---
 
-## 8. Performance Considerations (性能考量)
+## 8. Completed Implementations (已实现功能)
+
+| Task | 功能模块 | 实现状态 |
+|:---|:---|:---:|
+| T-001 | 基础练习模式 - 鼓点节奏、击打判定、连击系统 | ✅ 已上线 |
+| T-002 | MP3 导入 - 音频分析、鼓点识别、BPM检测 | ✅ 已完成 |
+| T-003 | 评分系统 - 实时评分、历史记录、成就系统 | ✅ 已完成 |
+| T-004 | 解锁机制 - 线性解锁、评级要求、UI反馈 | ✅ 已完成 |
+| T-005 | 待办页面 - 练习计划管理、完成追踪 | ✅ 已完成 |
+
+---
+
+## 9. Performance Considerations (性能考量)
 
 | Concern | Solution | Verification |
 |---------|----------|--------------|
@@ -644,7 +656,7 @@ export function useMetronome(audioContext: AudioContext) {
 
 ---
 
-## 9. Dependencies (依赖清单)
+## 10. Dependencies (依赖清单)
 
 ### 9.1 开发依赖
 ```bash
@@ -659,7 +671,7 @@ npm install -D vitest @vue/test-utils jsdom @vitest/coverage-v8
 
 ---
 
-## 10. Checklist Before Coding (编码前检查清单)
+## 11. Checklist Before Coding (编码前检查清单)
 
 - [ ] Product Spec 中的验收标准已明确
 - [ ] Tech Spec 中的数据模型已定义
