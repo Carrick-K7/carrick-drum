@@ -71,3 +71,6 @@ export interface PracticeSession {
   maxCombo: number
   grade: string
 }
+
+// Re-export MP3 import types
+export * from './mp3-import'

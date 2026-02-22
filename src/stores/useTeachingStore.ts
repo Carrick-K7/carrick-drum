@@ -4,6 +4,8 @@ import type { RhythmMap, Beat, JudgmentResult } from '../types'
 import { JudgmentEngine } from '../core/judgment'
 import { getLessonById } from '../data/lessons'
 import { useScoringStore, type ScoreRecord } from './useScoringStore'
+import { useProgressStore } from './useProgressStore'
+import type { UnlockEvent } from '../data/unlockRules'
 
 export type PracticeMode = 'practice' | 'perform'
 export type LessonState = 'idle' | 'intro' | 'countdown' | 'playing' | 'paused' | 'completed'
@@ -301,7 +303,7 @@ export const useTeachingStore = defineStore('teaching', () => {
   /**
    * 完成课程
    */
-  function completeLesson(): ScoreRecord | null {
+  function completeLesson(): { record: ScoreRecord | null; unlockEvents: UnlockEvent[] } {
     isPlaying.value = false
     lessonState.value = 'completed'
     
@@ -310,18 +312,33 @@ export const useTeachingStore = defineStore('teaching', () => {
       animationFrameId = null
     }
     
+    let record: ScoreRecord | null = null
+    const unlockEvents: UnlockEvent[] = []
+    
     // 如果是练习模式，保存成绩
     if (practiceMode.value === 'practice' && judgmentEngine.value) {
       const scoringStore = useScoringStore()
-      const record = scoringStore.completeSession(
+      const progressStore = useProgressStore()
+      
+      record = scoringStore.completeSession(
         judgmentEngine.value.getTotalScore(),
         judgmentEngine.value.getAccuracy(),
         judgmentEngine.value.getGrade()
       )
-      return record
+      
+      // 更新进度存储并检查解锁
+      if (currentLesson.value) {
+        const events = progressStore.updateLessonCompletion(
+          currentLesson.value.id,
+          judgmentEngine.value.getGrade() as import('../data/unlockRules').Rating,
+          judgmentEngine.value.getTotalScore(),
+          judgmentEngine.value.getAccuracy()
+        )
+        unlockEvents.push(...events)
+      }
     }
     
-    return null
+    return { record, unlockEvents }
   }
   
   /**

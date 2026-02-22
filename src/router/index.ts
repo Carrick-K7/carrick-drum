@@ -33,6 +33,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../views/TodoView.vue')
   },
   {
+    path: '/import',
+    name: 'import',
+    component: () => import('../views/MP3ImportView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/teaching'
   }

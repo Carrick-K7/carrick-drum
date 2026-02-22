@@ -400,7 +400,7 @@ describe('🥁 Drum App E2E Tests', () => {
       teachingStore.lessonState = 'playing'
       
       // 4. 完成课程
-      const record = teachingStore.completeLesson()
+      const { record } = teachingStore.completeLesson()
       
       // 5. 验证成绩已保存
       expect(scoringStore.isRecording).toBe(false)
