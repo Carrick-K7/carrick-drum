@@ -27,7 +27,7 @@ export function useAudioAnalyzer() {
    */
   const decodeAudio = async (
     file: File, 
-    audioContext: AudioContext
+    ctx: AudioContext
   ): Promise<AudioBuffer> => {
     progress.value = {
       stage: 'decoding',
@@ -38,103 +38,12 @@ export function useAudioAnalyzer() {
     const arrayBuffer = await file.arrayBuffer()
     
     try {
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+      const audioBuffer = await ctx.decodeAudioData(arrayBuffer)
       progress.value.progress = 30
       return audioBuffer
     } catch (err) {
       throw new Error(`音频解码失败: ${(err as Error).message}`)
     }
-  }
-
-  /**
-   * Extract frequency energy using FFT via AnalyserNode
-   */
-  const analyzeFrequencies = (
-    audioBuffer: AudioBuffer,
-    audioContext: AudioContext
-  ): { energies: Float32Array[]; times: number[]; dominantFreqs: number[] } => {
-    progress.value = {
-      stage: 'analyzing',
-      progress: 40,
-      message: '正在分析频谱...'
-    }
-
-    const offlineContext = new OfflineAudioContext(
-      1,
-      audioBuffer.length,
-      audioBuffer.sampleRate
-    )
-
-    const source = offlineContext.createBufferSource()
-    source.buffer = audioBuffer
-
-    const analyser = offlineContext.createAnalyser()
-    analyser.fftSize = DEFAULT_OPTIONS.windowSize * 2
-    analyser.smoothingTimeConstant = 0.3
-
-    source.connect(analyser)
-    analyser.connect(offlineContext.destination)
-
-    const energies: Float32Array[] = []
-    const times: number[] = []
-    const dominantFreqs: number[] = []
-    
-    const bufferLength = analyser.frequencyBinCount
-    const dataArray = new Float32Array(bufferLength)
-    
-    // Calculate hop size (overlap)
-    const hopSize = DEFAULT_OPTIONS.windowSize / 2
-    const totalFrames = Math.floor(audioBuffer.length / hopSize)
-    
-    // Process audio in chunks
-    const scriptProcessor = offlineContext.createScriptProcessor(
-      DEFAULT_OPTIONS.windowSize, 1, 1
-    )
-    
-    let frameCount = 0
-    
-    scriptProcessor.onaudioprocess = (event) => {
-      const inputData = event.inputBuffer.getChannelData(0)
-      
-      // Calculate RMS energy
-      let sum = 0
-      for (let i = 0; i < inputData.length; i++) {
-        sum += inputData[i] * inputData[i]
-      }
-      const rmsEnergy = Math.sqrt(sum / inputData.length)
-      
-      // Get frequency data
-      analyser.getFloatFrequencyData(dataArray)
-      
-      // Find dominant frequency
-      let maxVal = -Infinity
-      let maxIndex = 0
-      for (let i = 0; i < bufferLength; i++) {
-        if (dataArray[i] > maxVal) {
-          maxVal = dataArray[i]
-          maxIndex = i
-        }
-      }
-      const dominantFreq = maxIndex * audioBuffer.sampleRate / (bufferLength * 2)
-      
-      energies.push(new Float32Array([rmsEnergy]))
-      times.push(frameCount * hopSize / audioBuffer.sampleRate)
-      dominantFreqs.push(dominantFreq)
-      
-      frameCount++
-      
-      // Update progress
-      if (frameCount % 100 === 0) {
-        progress.value.progress = 40 + Math.floor((frameCount / totalFrames) * 20)
-      }
-    }
-    
-    source.connect(scriptProcessor)
-    scriptProcessor.connect(offlineContext.destination)
-    
-    source.start(0)
-    
-    return { energies, times, dominantFreqs }
   }
 
   /**

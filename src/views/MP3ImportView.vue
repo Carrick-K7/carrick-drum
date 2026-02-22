@@ -40,7 +40,6 @@ import { ref, onUnmounted } from 'vue'
 import MP3Uploader from '../components/MP3Uploader.vue'
 import MP3Editor from '../components/MP3Editor.vue'
 import { useMP3ImportStore } from '../stores/useMP3ImportStore'
-import { useMP3Import } from '../composables/useMP3Import'
 
 const store = useMP3ImportStore()
 
