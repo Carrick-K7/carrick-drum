@@ -1,4 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="#39C5BB"/>
-  <text x="50" y="68" font-size="55" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold">D</text>
+  <!-- Drum - 架子鼓 -->
+  <!-- 军鼓 -->
+  <ellipse cx="50" cy="45" rx="25" ry="12" fill="none" stroke="#39C5BB" stroke-width="3"/>
+  <rect x="25" y="45" width="50" height="20" fill="none" stroke="#39C5BB" stroke-width="3"/>
+  <ellipse cx="50" cy="65" rx="25" ry="12" fill="none" stroke="#39C5BB" stroke-width="3"/>
+  <!-- 支架 -->
+  <line x1="50" y1="77" x2="50" y2="88" stroke="#39C5BB" stroke-width="3"/>
+  <line x1="40" y1="88" x2="60" y2="88" stroke="#39C5BB" stroke-width="3" stroke-linecap="round"/>
+  <!-- 鼓槌 -->
+  <line x1="60" y1="25" x2="70" y2="40" stroke="#39C5BB" stroke-width="3" stroke-linecap="round"/>
+  <line x1="70" y1="25" x2="80" y2="40" stroke="#39C5BB" stroke-width="3" stroke-linecap="round"/>
 </svg>
